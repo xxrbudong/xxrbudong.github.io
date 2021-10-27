@@ -1220,7 +1220,7 @@
 <h3 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><p>创建型设计模式是解决对象创建机制的设计模式。</p>
 <p>该类设计模式试图根据具体的情况，以适当方式创建对象。</p>
 <h4 id="工厂方法模式介绍"><a href="#工厂方法模式介绍" class="headerlink" title="工厂方法模式介绍"></a>工厂方法模式介绍</h4><p><strong>问题提出：一个层次类包括多个子类，你试图调用某个类中的方法，但是你不知道调用哪一个类？怎么办？</strong></p>
-<p><img src="/.com//image-20211026203950189.png" alt="image-20211026203950189"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211026203950189.png" alt="image-20211026203950189"></p>
 <p><strong>上图设计的缺陷：</strong></p>
 <ul>
 <li>高耦合，在客户程序与服务提供者层次类有高的耦合。</li>
@@ -1229,7 +1229,7 @@
 </ul>
 <p><strong>怎样改善以上设计？</strong></p>
 <p><strong>抽象工厂模式</strong>：将选择和初始化一个合适的类的功能封装到一个专门的类的专门的方法中——<strong>工厂方法</strong></p>
-<p><img src="/.com//image-20211026205240021.png" alt="image-20211026205240021"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211026205240021.png" alt="image-20211026205240021"></p>
 <p>如图所示，我们将根据不同的选择创建类的方法，放入到了专门的类的专门的方法中，不需要客户类在进行创建。</p>
 <p>CarObjCreator是工厂类。</p>
 <p>factoryMethod是工厂方法。</p>
@@ -1246,7 +1246,7 @@
 <li>隐藏初始化对象的繁杂的细节。工厂方法也实现选择的类的特定的机制。</li>
 <li>客户类不需要知道哪一个类的对象被创建了，客户类只知道父类类型。<strong>（难得糊涂）</strong></li>
 </ul>
-<h4 id="简单工厂方法模式理论和设计例子"><a href="#简单工厂方法模式理论和设计例子" class="headerlink" title="简单工厂方法模式理论和设计例子"></a>简单工厂方法模式理论和设计例子</h4><p><img src="/.com//image-20211026210606261.png" alt="image-20211026210606261"></p>
+<h4 id="简单工厂方法模式理论和设计例子"><a href="#简单工厂方法模式理论和设计例子" class="headerlink" title="简单工厂方法模式理论和设计例子"></a>简单工厂方法模式理论和设计例子</h4><p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211026210606261.png" alt="image-20211026210606261"></p>
 <p>Creator（工厂类）：</p>
 <ul>
 <li>中心，是整个工厂模式的中心</li>
@@ -1262,12 +1262,12 @@
 <ul>
 <li>实现抽象类或抽象方法。</li>
 </ul>
-<p><img src="/.com//image-20211027204735116.png" alt="image-20211027204735116"></p>
-<h5 id="例1-汽车保险介绍程序"><a href="#例1-汽车保险介绍程序" class="headerlink" title="例1 汽车保险介绍程序"></a>例1 汽车保险介绍程序</h5><p><img src="/.com//image-20211027204838860.png" alt="image-20211027204838860"></p>
-<p><img src="/.com//image-20211027205129293.png" alt="image-20211027205129293"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027204735116.png" alt="image-20211027204735116"></p>
+<h5 id="例1-汽车保险介绍程序"><a href="#例1-汽车保险介绍程序" class="headerlink" title="例1 汽车保险介绍程序"></a>例1 汽车保险介绍程序</h5><p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027204838860.png" alt="image-20211027204838860"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027205129293.png" alt="image-20211027205129293"></p>
 <p><strong>静态方法</strong></p>
 <p>工厂类的构造方法被标记为private，所以构造方法除了在类的内部被调用以外就不能够被访问。工厂类的其他方法被标记为static，这样就不需要在调用该方法之前必须首先拥有一个该类的对象。</p>
-<p><img src="/.com//image-20211027205159714.png" alt="image-20211027205159714"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027205159714.png" alt="image-20211027205159714"></p>
 <h5 id="简单工厂方法模式优点"><a href="#简单工厂方法模式优点" class="headerlink" title="简单工厂方法模式优点"></a>简单工厂方法模式优点</h5><ul>
 <li>一些逻辑被放在了工厂类里面。工厂类中包含一些必要的逻辑，题目能够选择出我们要创建的类当我们需要去创建的时候。</li>
 <li>客户类不用自己创建对象</li>
@@ -1277,14 +1277,14 @@
 <li>添加Project子类比较困难</li>
 </ul>
 <p>即我们需要在工厂方法里面的代码再增加一个条件语句。</p>
-<h4 id="工厂方法模式理论与例子"><a href="#工厂方法模式理论与例子" class="headerlink" title="工厂方法模式理论与例子"></a>工厂方法模式理论与例子</h4><p><img src="/.com//image-20211027210048046.png" alt="image-20211027210048046"></p>
-<h5 id="例子-汽车保险介绍程序"><a href="#例子-汽车保险介绍程序" class="headerlink" title="例子 汽车保险介绍程序"></a>例子 汽车保险介绍程序</h5><p><img src="/.com//image-20211027210139790.png" alt="image-20211027210139790"></p>
-<p><img src="/.com//image-20211027210229579.png" alt="image-20211027210229579"></p>
+<h4 id="工厂方法模式理论与例子"><a href="#工厂方法模式理论与例子" class="headerlink" title="工厂方法模式理论与例子"></a>工厂方法模式理论与例子</h4><p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027210048046.png" alt="image-20211027210048046"></p>
+<h5 id="例子-汽车保险介绍程序"><a href="#例子-汽车保险介绍程序" class="headerlink" title="例子 汽车保险介绍程序"></a>例子 汽车保险介绍程序</h5><p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027210139790.png" alt="image-20211027210139790"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027210229579.png" alt="image-20211027210229579"></p>
 <p><strong>在工厂的方法中没有条件语句，直接创建对应的对象</strong></p>
-<p><img src="/.com//image-20211027210341325.png" alt="image-20211027210341325"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027210341325.png" alt="image-20211027210341325"></p>
 <p>在客户程序中，根据<strong>客户的选择</strong>的不同，采用<strong>条件语句</strong>的方式，创建不同的<strong>工厂子类对象</strong>，然后像简单工厂方法模式一样，获得<strong>产品子类对象</strong></p>
-<h4 id="进一步讨论工厂方法模式"><a href="#进一步讨论工厂方法模式" class="headerlink" title="进一步讨论工厂方法模式"></a>进一步讨论工厂方法模式</h4><h5 id="简单工厂方法模式与工厂方法模式对比"><a href="#简单工厂方法模式与工厂方法模式对比" class="headerlink" title="简单工厂方法模式与工厂方法模式对比"></a>简单工厂方法模式与工厂方法模式对比</h5><p><img src="/.com//image-20211027210904658.png" alt="image-20211027210904658"></p>
-<p><img src="/.com//image-20211027211003240.png" alt="image-20211027211003240"></p>
+<h4 id="进一步讨论工厂方法模式"><a href="#进一步讨论工厂方法模式" class="headerlink" title="进一步讨论工厂方法模式"></a>进一步讨论工厂方法模式</h4><h5 id="简单工厂方法模式与工厂方法模式对比"><a href="#简单工厂方法模式与工厂方法模式对比" class="headerlink" title="简单工厂方法模式与工厂方法模式对比"></a>简单工厂方法模式与工厂方法模式对比</h5><p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027210904658.png" alt="image-20211027210904658"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027211003240.png" alt="image-20211027211003240"></p>
 <ul>
 <li>中心不同。简单工厂方法模式的中心是一个具体的工厂类，工厂方法模式的中心是一个抽象工厂类。</li>
 <li>工厂方法不同，一个静态，一个动态。<strong>（java中不允许静态的抽象方法）</strong>。在简单工厂方法模式中工厂方法是静态方法；在工厂方法模式中，工厂方法是动态的，并且分布在具体的工厂类中。</li>
@@ -1292,7 +1292,7 @@
 </ul>
 <p><strong>是否需要修改Client类？</strong></p>
 <p>需要？</p>
-<p><img src="/.com//image-20211027212521412.png" alt="image-20211027212521412"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027212521412.png" alt="image-20211027212521412"></p>
 <ul>
 <li>两个工厂方法返回类型都是超类类型。在简单工厂方法模式和工厂方法模式中，工厂方法返回Product类型的对象，而不是具体产品类的对象。<strong>（客户端不需要知道真实类型的类型）</strong></li>
 </ul>
@@ -1305,12 +1305,12 @@
 <li><p>创建对象的任务分散在客户类的子类中，比较乱；可使用工厂方法模式将创建产品类的子类对象的责任分离出来</p>
 </li>
 <li><p>你希望获得创建好的子类。</p>
-<p><img src="/.com//image-20211027213833662.png" alt="image-20211027213833662"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027213833662.png" alt="image-20211027213833662"></p>
 </li>
 </ul>
-<p><img src="/.com//image-20211027213851821.png" alt="image-20211027213851821"></p>
-<p><img src="/.com//image-20211027214110415.png" alt="image-20211027214110415"></p>
-<p><img src="/.com//image-20211027214203501.png" alt="image-20211027214203501"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027213851821.png" alt="image-20211027213851821"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027214110415.png" alt="image-20211027214110415"></p>
+<p><img src="/2021/10/05/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20211027214203501.png" alt="image-20211027214203501"></p>
 
       
     </div>
