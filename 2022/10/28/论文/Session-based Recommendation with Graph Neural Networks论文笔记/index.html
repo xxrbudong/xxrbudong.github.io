@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Session-based Recommendation with Graph Neural Networks背景推荐文章 (139条消息) 序列推荐模型梳理（Sequential Recommendation）_paper_reader的博客-CSDN博客_序列推荐 Session-based推荐算法实践与应用 - 知乎 (zhihu.com) 推荐系统中为什么要有召回、粗排、精排 - xd_x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/10/28/%E8%AE%BA%E6%96%87/Session-based%20Recommendation%20with%20Graph%20Neural%20Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Session-based Recommendation with Graph Neural Networks背景推荐文章 (139条消息) 序列推荐模型梳理（Sequential Recommendation）_paper_reader的博客-CSDN博客_序列推荐 Session-based推荐算法实践与应用 - 知乎 (zhihu.com) 推荐系统中为什么要有召回、粗排、精排 - xd_x">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-28T09:00:54.953Z">
+<meta property="article:modified_time" content="2022-10-30T12:39:21.179Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/10/28/%E8%AE%BA%E6%96%87/Session-based%20Recommendation%20with%20Graph%20Neural%20Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/10/28/%E8%AE%BA%E6%96%87/Session-based%20Recommendation%20with%20Graph%20Neural%20Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/","path":"2022/10/28/论文/Session-based Recommendation with Graph Neural Networks论文笔记/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | Hexo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Session-based-Recommendation-with-Graph-Neural-Networks"><span class="nav-number">1.</span> <span class="nav-text">Session-based Recommendation with Graph Neural Networks</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GNN"><span class="nav-number">1.3.1.</span> <span class="nav-text">GNN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">RNN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text">神经网络基础</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RNN%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.1.1.2.</span> <span class="nav-text">RNN结构</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GRU"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">GRU</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#GRU%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.1.2.1.</span> <span class="nav-text">GRU是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GRU%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.1.2.2.</span> <span class="nav-text">GRU的输入输出结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GRU%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.1.2.3.</span> <span class="nav-text">GRU内部结构</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GNN-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">GNN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.5.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxrbudong" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxrbudong" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/28/%E8%AE%BA%E6%96%87/Session-based%20Recommendation%20with%20Graph%20Neural%20Networks%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-28 17:00:54" itemprop="dateCreated datePublished" datetime="2022-10-28T17:00:54+08:00">2022-10-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-10-30 20:39:21" itemprop="dateModified" datetime="2022-10-30T20:39:21+08:00">2022-10-30</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Session-based-Recommendation-with-Graph-Neural-Networks"><a href="#Session-based-Recommendation-with-Graph-Neural-Networks" class="headerlink" title="Session-based Recommendation with Graph Neural Networks"></a>Session-based Recommendation with Graph Neural Networks</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><strong>推荐文章</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/paper_reader/article/details/109325928">(139条消息) 序列推荐模型梳理（Sequential Recommendation）_paper_reader的博客-CSDN博客_序列推荐</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/303233631">Session-based推荐算法实践与应用 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xumaomao/p/15237810.html">推荐系统中为什么要有召回、粗排、精排 - xd_xumaomao - 博客园 (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012513618/article/details/108747008">(139条消息) 推荐召回阶段-正负样本选取准则_Daisy和她的单程车票的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/448575579">简述马尔可夫链【通俗易懂】 - 知乎 (zhihu.com)</a></p>
+<p><strong>基于会话的推荐算法</strong>(Session-based Recommendation)是指在用户未登录状态下, 仅仅依赖匿名会话进行用户下一个行为预测的一种算法。</p>
+<p><strong>Session-based Recommendation</strong>易与序列推荐(Sequential Recommendation)混淆, 这里区分一下,序列推荐中常将用户长期历史序列建模表征用户, 可能还包括用户画像等信息, 典型算法如**<a href="https://link.zhihu.com/?target=https://dl.acm.org/doi/10.1145/3357384.3357814">MIND</a><strong>、</strong><a href="https://link.zhihu.com/?target=https://dl.acm.org/doi/10.1145/3357384.3357818">SDM</a>**等; 而基于会话的推荐中, session行为长度相对更短, 且用户长期偏好完全未知, 主要侧重于建模用户近期实时兴趣, 可以视为序列推荐的子领域.</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="GNN"><a href="#GNN" class="headerlink" title="GNN"></a>GNN</h3><h4 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h4><p><strong>参考文章</strong></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30844905">一文搞懂RNN（循环神经网络）基础篇 - 知乎 (zhihu.com)</a></p>
+<h5 id="神经网络基础"><a href="#神经网络基础" class="headerlink" title="神经网络基础"></a>神经网络基础</h5><p>神经网络可以当做是能够拟合任意函数的黑盒子，只要训练数据足够，给定特定的x，就能得到希望的y。</p>
+<p>![img](Session-based Recommendation with Graph Neural Networks论文笔记/神经网路-1.jpg)</p>
+<p>将神经网络模型训练好之后，在输入层给定一个x，通过网络之后就能够在输出层得到特定的y。</p>
+<h5 id="RNN结构"><a href="#RNN结构" class="headerlink" title="RNN结构"></a>RNN结构</h5><p>首先看一个简单的循环神经网络如，它由输入层、一个隐藏层和一个输出层组成：</p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/RNN结构-1.jpg)</p>
+<p>我们现在这样来理解，如果把上面有W的那个带箭头的圈去掉，它就变成了最普通的<strong>全连接神经网络</strong>。x是一个向量，它表示<strong>输入层</strong>的值（这里面没有画出来表示神经元节点的圆圈）；s是一个向量，它表示<strong>隐藏层</strong>的值（这里隐藏层面画了一个节点，你也可以想象这一层其实是多个节点，节点数与向量s的维度相同）；</p>
+<p>U是输入层到隐藏层的<strong>权重矩阵</strong>，o也是一个向量，它表示<strong>输出层</strong>的值；V是隐藏层到输出层的<strong>权重矩阵</strong>。</p>
+<p>那么，现在我们来看看W是什么。<strong>循环神经网络</strong>的<strong>隐藏层</strong>的值s不仅仅取决于当前这次的输入x，还取决于上一次<strong>隐藏层</strong>的值s。<strong>权重矩阵</strong> W就是<strong>隐藏层</strong>上一次的值作为这一次的输入的权重。</p>
+<p>我们给出这个抽象图对应的具体图：</p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/RNN结构-2.jpg)</p>
+<p><strong>我们从上图就能够很清楚的看到，上一时刻的隐藏层是如何影响当前时刻的隐藏层的。</strong></p>
+<p>如果我们把上面的图展开，<strong>循环神经网络</strong>也可以画成下面这个样子：</p>
+<p>![img](Session-based Recommendation with Graph Neural Networks论文笔记/RNN结构-3.jpg)</p>
+<p>现在看上去就比较清楚了，这个网络在t时刻接收到输入$x_t$ 之后，隐藏层的值是 $s_t$，输出值是$o_t$ 。关键一点是， $s_t$ 的值不仅仅取决于$x_t$ ，还取决于 $s_{t-1}$ 。我们可以用下面的公式来表示<strong>循环神经网络</strong>的计算方法</p>
+<p><strong>公式表示</strong></p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/RNN公式.png)</p>
+<h4 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h4><p><strong>参考文章</strong></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32481747">人人都能看懂的GRU - 知乎 (zhihu.com)</a></p>
+<h5 id="GRU是什么？"><a href="#GRU是什么？" class="headerlink" title="GRU是什么？"></a>GRU是什么？</h5><p><strong>GRU（Gate Recurrent Unit）</strong>是循环神经网络（Recurrent Neural Network, RNN）的一种。和LSTM（Long-Short Term Memory）一样，也是为了解决长期记忆和反向传播中的梯度等问题而提出来的。</p>
+<p>相比LSTM，使用GRU能够达到相当的效果，并且相比之下更容易进行训练，能够很大程度上提高训练效率，因此很多时候会更倾向于使用GRU。</p>
+<h5 id="GRU的输入输出结构"><a href="#GRU的输入输出结构" class="headerlink" title="GRU的输入输出结构"></a>GRU的输入输出结构</h5><p>GRU的输入输出结构与普通的RNN是一样的。</p>
+<p>有一个当前的输入 $x^t$ ，和上一个节点传递下来的隐状态（hidden state） $h^{t-1}$，这个隐状态包含了之前节点的相关信息。</p>
+<p>结合$x^t $和$h^{t-1}$，GRU会得到当前隐藏节点的输出 $y^t$ 和传递给下一个节点的隐状态 $h^t$ 。</p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/GRU-1.png)</p>
+<h5 id="GRU内部结构"><a href="#GRU内部结构" class="headerlink" title="GRU内部结构"></a>GRU内部结构</h5><p>首先，我先通过上一个传输下来的状态$h^{t-1}$和当前节点的输入$x^t$来获得两个门控状态，如图所示，其中**$r$是控制重置的门控（reset gate）<strong>，</strong>$z$是控制更新的门控（update gate）**。</p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/GRU结构-2.jpg)</p>
+<p>注意：$\sigma$是$sigmoid$函数，通过这个函数可以将数据变换为0-1范围内的数值，从而来充当门控信号。</p>
+<p>得到门控信号之后，首先使用重置门控来得到<strong>“重置”</strong>之后的数据 $h^{t-1’} = h^{t-1}\bigodot r$，再将$h^{t-1’}$与$x^t$进行拼接，再通过一个$tanh$激活函数来将数据放缩到**-1~1**的范围内。即如图所示</p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/GRU-3.png)</p>
+<p>这里的 $h’$ 主要是包含了当前输入的 $x^t$ 数据。有针对性地对 $h’$添加到当前的隐藏状态，相当于记忆了当前时刻的状态。</p>
+<p>![](Session-based Recommendation with Graph Neural Networks论文笔记/GRU-4.jpg)</p>
+<p><strong>⊙ 是Hadamard Product，也就是操作矩阵中对应的元素相乘，因此要求两个相乘矩阵是同型的。 ⊕ 则代表进行矩阵加法操作。</strong></p>
+<p><strong>更新记忆</strong></p>
+<p><strong>更新表达式：</strong> $h^t = (1-z)⊙h^{t-1} + z ⊙ h’$</p>
+<p>首先再次强调一下，门控信号（这里的$z$）的范围为0~1。门控信号越接近1，代表”记忆“下来的数据越多；而越接近0则代表”遗忘“的越多。</p>
+<p><strong>我们使用了同一个门控$ z$ 就同时可以进行遗忘和选择记忆</strong></p>
+<p>$(1-z)⊙h^{t-1}$: 表示对原本隐藏状态的选择性遗忘，这里的$1-z$可以想象成遗忘门（forget gate），忘记$h^{t-1}$维度中一些不重要的信息。</p>
+<p> $z ⊙ h’$：表示对包含当前节点信息的$h’$进行选择性记忆，与上面的类似，这里的$(1-z)$同理会忘记${h’}$维度中的一些不重要的信息。或者，这里我们更因该当看作是对$h’$维度中的某些信息的选择。</p>
+<p> $h^t = (1-z)⊙h^{t-1} + z ⊙ h’$：结合上述，这一步的操作就是忘记传递下来的$h^{t-1}$中的某些维度信息，并加入当前节点输入的某些维度信息。</p>
+<p>重置门是一个由 0 到 1 组成的向量，它会衡量门控开启的大小。例如某个元素对应的门控值为 0，那么它就代表这个元素的信息完全被遗忘掉。该 Hadamard 乘积将确定所要保留与遗忘的以前信息。、</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><h3 id="GNN-1"><a href="#GNN-1" class="headerlink" title="GNN"></a>GNN</h3><p><strong>参考文章：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhaohongfei_358/article/details/122797190">(139条消息) Pytorch nn.Linear的基本用法_iioSnail的博客-CSDN博客_nn.linear</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nn.Linear：对输入数据做线性变换 y=xA^T+b</span></span><br><span class="line"><span class="comment">#nn.Linear:定义一个神经网络的线性层，方法签名如下：</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">torch.nn.Linear(in_features, # 输入的神经元个数</span></span><br><span class="line"><span class="string">           out_features, # 输出神经元个数</span></span><br><span class="line"><span class="string">           bias=True # 是否包含偏置</span></span><br><span class="line"><span class="string">           )</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">self.linear_edge_in = nn.Linear(self.hidden_size, self.hidden_size, bias=<span class="literal">True</span>)</span><br><span class="line">self.linear_edge_out = nn.Linear(self.hidden_size, self.hidden_size, bias=<span class="literal">True</span>)</span><br><span class="line">self.linear_edge_f = nn.Linear(self.hidden_size, self.hidden_size, bias=<span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>参考文章：</strong><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhaohongfei_358/article/details/122797190">(139条消息) Pytorch nn.Linear的基本用法_iioSnail的博客-CSDN博客_nn.linear</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43332629/article/details/106092700">(139条消息) 如何判断张量（tensor）的维度呢？_千岁千岁千千岁_的博客-CSDN博客_判断tensor维度</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#matmul：矩阵相乘，多维会广播相乘</span></span><br><span class="line"><span class="comment">#冒号表达式：array1[: , 0:3:2 , :]表示第1维1-3列每隔2列取1列。array1[: ,:, :2]表示第2维只取前2列</span></span><br><span class="line"><span class="comment">##此处A[:, :, :A.shape[1]]表示表示取第1列到A.shape[1]列</span></span><br><span class="line">input_in = torch.matmul(A[:, :, :A.shape[<span class="number">1</span>]], self.linear_edge_in(hidden)) + self.b_iah</span><br><span class="line"><span class="comment">##此处A[:, :, A.shape[1]: 2 * A.shape[1]]表示取第A.shape[1]列到2*A.shape[1]列</span></span><br><span class="line">input_out = torch.matmul(A[:, :, A.shape[<span class="number">1</span>]: <span class="number">2</span> * A.shape[<span class="number">1</span>]], self.linear_edge_out(hidden)) + self.b_oah</span><br><span class="line">inputs = torch.cat([input_in, input_out], <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1）他进行数据集的清洗操作，我们是否还需要进行？</p>
+<p>2） 数据集一些特殊情况我们是否需要考虑进行清洗掉？</p>
+<p>3）进行数据集处理时，他是对应的对话序列构建邻接矩阵，我是用什么方法来做？</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/26/%E8%AE%BA%E6%96%87/Equivalence%20between%20Time%20Series%20Predictability%20and%20Bayes%20Error%20Rate%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" rel="prev" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/20/%E8%AE%BA%E6%96%87/FeeBee/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
